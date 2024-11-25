@@ -380,6 +380,8 @@ static void stopAndCleanup(POPAnimator *self, POPAnimatorItemRef item, bool shou
 #if TARGET_OS_IPHONE
   _displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(render)];
   _displayLink.paused = YES;
+  CGFloat maxFps = [UIScreen mainScreen].maximumFramesPerSecond;
+  [_displayLink setPreferredFrameRateRange:CAFrameRateRangeMake(maxFps, maxFps, maxFps)];
   [_displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
 #else
   CVReturn ret = CVDisplayLinkCreateWithActiveCGDisplays(&_displayLink);
